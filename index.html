@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Sosmed Modern</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    
+:root {
+  --bg: #e6f2e6;
+  --text: #2e3d2f;
+  --primary: #3a6b35;
+  --card: #ffffff;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --mountain-img: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?fit=crop&w=1500&q=80');
+}
+
+
+    body.dark {
+      --bg: #18191a;
+      --text: #e4e6eb;
+      --primary: #2d88ff;
+      --card: #242526;
+      --shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+    }
+
+    
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg);
+  background-image: var(--mountain-img);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+
+    .container {
+  max-width: 800px;
+  margin: 60px auto;
+  background: var(--card);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+      max-width: 700px;
+      margin: 40px auto;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+      width: 100%;
+      padding: 10px 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+  padding: 10px 18px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+      padding: 6px 10px;
+      background-color: #e0e0e0;
+      color: #000;
+      border: 1px solid #999;
+      border-radius: 2px;
+      cursor: pointer;
+      width: auto;
+      font-weight: normal;
+      font-size: 0.85rem;
+      transition: none;
+      margin: 5px 5px 5px 0;
+    }
+
+    button:hover {
+  background-color: #2f5e2a;
+      background: #d0d0d0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden { display: none; }
+
+    .post {
+      background-color: var(--bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .comment {
+      margin-left: 20px;
+      font-size: 0.9em;
+      color: gray;
+    }
+
+    img.profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+    }
+
+    #darkToggle {
+      margin-top: 12px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--primary);
+      cursor: pointer;
+    }
+  
+.comment-depth-0 {
+  background-color: #f9f9f9;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+.comment-depth-1 {
+  background-color: #f1f1f1;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+.comment-depth-2 {
+  background-color: #e9e9e9;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+.comment-depth-3 {
+  background-color: #e1e1e1;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+
+#storyContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+#storyContainer .story-card {
+  background-color: var(--card);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+
+.mention {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.reaction-btn {
+  background-color: #dff0d8;
+  border: 1px solid #3a6b35;
+  color: #2e3d2f;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin: 4px 2px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button.reaction-btn:hover {
+  background-color: #c8e6c9;
+}
+
+button.action-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 6px 6px 6px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #e0f7fa;
+  border: 1px solid #0288d1;
+  color: #01579b;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 4px 2px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+button.action-btn:hover {
+  background-color: #2f5e2a;
+  background-color: #b2ebf2;
+}
+
+.comment {
+  margin: 10px 0 10px 20px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-left: 4px solid #3a6b35;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #2e3d2f;
+}
+
+
+.reaction-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.reaction-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.reaction-btn:hover {
+  transform: scale(1.2);
+}
+
+.action-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 6px 6px 6px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #ffffffcc;
+  border: 1px solid #ccc;
+  color: #2e3d2f;
+  border-radius: 20px;
+  padding: 5px 12px;
+  margin: 4px 4px 4px 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.action-btn:hover {
+  background-color: #2f5e2a;
+  background-color: #e0e0e0;
+}
+
+.comment {
+  margin: 8px 0 8px 20px;
+  padding: 10px 14px;
+  background: #ffffffcc;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #2e3d2f;
+  position: relative;
+}
+.comment::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 12px;
+  width: 8px;
+  height: 8px;
+  background: #3a6b35;
+  border-radius: 50%;
+}
+
+.comment input {
+  margin-top: 6px;
+  width: calc(100% - 80px);
+}
+
+.comment button {
+  padding: 10px 18px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  margin-top: 6px;
+}
+
+</style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglV0xG1R9TvOflSsaK+0zYQgQ99V8zDeihdj5eQxMx3/4iMQLaGvw/szrYscztRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="container">
+    <div id="registerSection" class="fade-in">
+      <h2>Register</h2>
+      <input type="text" id="regUsername" placeholder="Username">
+      <input type="password" id="regPassword" placeholder="Password">
+      <button onclick="register()">Daftar</button>
+      <p>Sudah punya akun? <a onclick="switchSection('login')">Login di sini</a></p>
+    </div>
+
+    <div id="loginSection" class="hidden fade-in">
+      <h2>Login</h2>
+      <input type="text" id="loginUsername" placeholder="Username">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <p>Belum punya akun? <a onclick="switchSection('register')">Daftar di sini</a></p>
+    </div>
+
+    <div id="dashboardSection" class="hidden fade-in">
+      <nav class="nav-modern">
+        <a onclick="switchPage('home')">Beranda</a>
+        <a onclick="switchPage('settings')"><i class="fas fa-cog"></i> Setting</a>
+        <a onclick="switchPage('profile')"><i class="fas fa-user"></i> Profil</a>
+        <a onclick="switchPage('chat')"><i class="fas fa-comments"></i> Chat</a>
+        <a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+
+      <div id="homePage">
+        <h2>Story Hari Ini</h2>
+        <div id="storyContainer"></div>
+
+        <h2>Upload Status</h2>
+        <textarea id="statusText" placeholder="Tulis status..."></textarea>
+        <input type="file" id="photoInput"><br>
+        <label>Tambah ke Story:</label>
+        <input type="checkbox" id="addToStory">
+        <button onclick="postStatus()">Upload</button>
+        <h3>Postingan Terbaru</h3>
+        <div id="postContainer"></div>
+      </div>
+
+      <div id="settingsPage" class="hidden">
+        <h2>Pengaturan</h2>
+        <label>Ubah Username:</label>
+        <input id="newUsername">
+        <label>Ubah Password:</label>
+        <input id="newPassword" type="password">
+        <label>Bio:</label>
+        <input id="bioInput">
+        <label>Link Sosial Media:</label>
+        <input id="linkInput">
+        <label>Upload Foto Profil:</label>
+        <input type="file" id="profilePicInput"><br>
+        <button onclick="saveSettings()">Simpan</button>
+        <button id="darkToggle" style="position: absolute; top: 20px; right: 20px;" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      </div>
+
+      <div id="profilePage" class="hidden">
+        <h2>Profil</h2>
+        <img id="profilePic" class="profile-pic" src="" alt="Foto Profil"><br>
+        <p>Username: <span id="profileUsername"></span></p>
+        <p>Bio: <span id="profileBio"></span></p>
+        <p>Link: <a id="profileLink" href="#" target="_blank">-</a></p>
+        <p>Total Like: <span id="totalLike">0</span></p>
+        <p>Total Follower: <span id="totalFollow">0</span></p>
+        <h3>Follow Pengguna Lain</h3>
+        <input id="followUser" placeholder="Masukkan username">
+        <button onclick="followUserFunc()">Follow</button>
+        <button onclick="unfollowUserFunc()">Unfollow</button>
+      </div>
+    
+      <div id="chatPage" class="hidden">
+        <h2>Chat 1-on-1</h2>
+        <label for="chatUser">Pilih User:</label>
+        <select id="chatUser"></select>
+        <div class="chat-box" id="chatBox" style="border: 1px solid #ccc; padding: 10px; height: 200px; overflow-y: auto; background: #fafafa; margin-bottom: 10px;"></div>
+        <input id="chatInput" placeholder="Ketik pesan...">
+        <button onclick="sendMessage()">Kirim</button></div>
+      </div>
+
+  </div>
+
+  <script>
+    let currentUser = null;
+    let posts = JSON.parse(localStorage.getItem('posts') || '[]');
+    let stories = JSON.parse(localStorage.getItem('stories') || '[]');
+
+    function savePosts() { localStorage.setItem('posts', JSON.stringify(posts)); }
+    function saveStories() { localStorage.setItem('stories', JSON.stringify(stories)); }
+    function cleanOldStories() {
+      const now = Date.now();
+      stories = stories.filter(st => now - st.time < 86400000);
+      saveStories();
+    }
+
+    function refreshStories() {
+      cleanOldStories();
+      const container = document.getElementById("storyContainer");
+      container.innerHTML = "";
+      stories.forEach(story => {
+        const div = document.createElement("div");
+        div.className = "story-card";
+        div.innerHTML = `
+          <strong>${story.user}</strong><br>
+          ${story.text}<br>
+          ${story.photo ? `<img src="${story.photo}" width="150"><br>` : ""}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function switchSection(section) {
+      registerSection.classList.add('hidden');
+      loginSection.classList.add('hidden');
+      dashboardSection.classList.add('hidden');
+      if (section === 'register') registerSection.classList.remove('hidden');
+      else if (section === 'login') loginSection.classList.remove('hidden');
+      else dashboardSection.classList.remove('hidden');
+    }
+
+    function switchPage(page) {
+      homePage.classList.add('hidden');
+      settingsPage.classList.add('hidden');
+      profilePage.classList.add('hidden');
+      document.getElementById(page + 'Page').classList.remove('hidden');
+      if (page === 'profile') updateProfile();
+    }
+
+    function register() {
+      const user = regUsername.value.trim();
+      const pass = regPassword.value;
+      if (!user || !pass) return alert("Isi semua field!");
+      if (localStorage.getItem(user)) return alert("Username sudah terdaftar!");
+      localStorage.setItem(user, JSON.stringify({ password: pass, likes: 0, followers: [], following: [], profilePic: "", bio: "", link: "" }));
+      alert("Registrasi berhasil!");
+      switchSection('login');
+    }
+
+    function login() {
+      const user = loginUsername.value.trim();
+      const pass = loginPassword.value;
+      const data = localStorage.getItem(user);
+      if (!data) return alert("User tidak ditemukan!");
+      const parsed = JSON.parse(data);
+      if (parsed.password !== pass) return alert("Password salah!");
+      currentUser = user;
+      switchSection('dashboard');
+      switchPage('home');
+      refreshPosts();
+      refreshStories();
+    }
+
+    function logout() {
+      currentUser = null;
+      switchSection('login');
+    }
+
+    function postStatus() {
+      const text = statusText.value.trim();
+      const file = photoInput.files[0];
+      const toStory = addToStory.checked;
+      if (!text && !file) return;
+      const reader = new FileReader();
+      const process = (photoData = "") => {
+        const post = {
+          user: currentUser,
+          text,
+          photo: photoData,
+          likes: 0,
+          dislikes: 0,
+          comments: []
+        };
+        posts.unshift(post);
+        if (toStory) {
+          stories.unshift({ user: currentUser, text, photo: photoData, time: Date.now() });
+          saveStories();
+          refreshStories();
+        }
+        savePosts();
+        refreshPosts();
+      };
+      if (file) {
+        reader.onload = e => process(e.target.result);
+        reader.readAsDataURL(file);
+      } else {
+        process();
+      }
+      statusText.value = "";
+      photoInput.value = "";
+      addToStory.checked = false;
+    }
+
+    
+function parseMentions(text) {
+  return text.replace(/@(\w+)/g, (match, username) => {
+    if (localStorage.getItem(username)) {
+      return `<span class="mention" onclick="openUserProfile('${username}')">@${username}</span>`;
+    }
+    return match;
+  });
+}
+
+function openUserProfile(username) {
+  alert("Profil user: " + username);
+  // Bisa diarahkan ke halaman profil user
+}
+
+function refreshPosts() {
+      postContainer.innerHTML = "";
+      posts.forEach((post, i) => {
+        const div = document.createElement("div");
+        div.className = "story-card";
+        div.innerHTML = `
+          <strong>${post.user}</strong><br>
+          ${post.text}<br>
+          ${post.photo ? `<img src="${post.photo}" width="200"><br>` : ""}
+          <button class="action-btn" onclick="like(${i})">Like (${post.likes})</button>
+          <button class="action-btn" onclick="dislike(${i})">Dislike (${post.dislikes})</button>
+          ${post.user === currentUser ? `<button class="action-btn" onclick="deletePost(${i})">Hapus</button>` : ""}<br>
+          <div style='margin-top:8px;'><input id="comment${i}" placeholder="Komentar...">
+          <button class="action-btn" onclick="addComment(${i})">Kirim</button></div>
+          <div>${post.comments.map(c => `<div class="comment">${c.user}: ${c.text}</div>`).join("")}</div>
+        `;
+        postContainer.appendChild(div);
+      });
+    }
+
+    function like(i) {
+      if (!posts[i].likedUsers) posts[i].likedUsers = [];
+      if (posts[i].likedUsers.includes(currentUser)) {
+        alert("Kamu sudah menyukai postingan ini.");
+        return;
+      }
+      posts[i].likes++;
+      posts[i].likedUsers.push(currentUser);
+      const userData = JSON.parse(localStorage.getItem(posts[i].user));
+      userData.likes++;
+      localStorage.setItem(posts[i].user, JSON.stringify(userData));
+      savePosts();
+      refreshPosts();
+    }
+
+    function dislike(i) {
+      posts[i].dislikes++;
+      savePosts();
+      refreshPosts();
+    }
+
+    function addComment(i) {
+      const input = document.getElementById("comment" + i);
+      const text = input.value.trim();
+      if (text) {
+        posts[i].comments.push({ user: currentUser, text });
+        input.value = "";
+        savePosts();
+        refreshPosts();
+      }
+    }
+
+    function updateProfile() {
+      const data = JSON.parse(localStorage.getItem(currentUser));
+      data.bio = bioInput.value.trim();
+      data.link = linkInput.value.trim();
+      profileUsername.textContent = currentUser;
+      totalLike.textContent = data.likes || 0;
+      profilePic.src = data.profilePic || "";
+      totalFollow.textContent = (data.followers || []).length;
+      profileBio.textContent = data.bio || "-";
+      profileLink.href = data.link || "#";
+      profileLink.textContent = data.link ? "Lihat" : "-";
+    }
+
+    function saveSettings() {
+      const newUser = newUsername.value.trim();
+      const newPass = newPassword.value;
+      const data = JSON.parse(localStorage.getItem(currentUser));
+      data.bio = bioInput.value.trim();
+      data.link = linkInput.value.trim();
+      if (newUser && newUser !== currentUser) {
+        localStorage.setItem(newUser, JSON.stringify({ ...data, password: newPass || data.password }));
+        localStorage.removeItem(currentUser);
+        currentUser = newUser;
+      } else if (newPass) {
+        data.password = newPass;
+        localStorage.setItem(currentUser, JSON.stringify(data));
+      }
+      const pic = profilePicInput.files[0];
+      if (pic) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          data.profilePic = e.target.result;
+          localStorage.setItem(currentUser, JSON.stringify(data));
+          updateProfile();
+        };
+        reader.readAsDataURL(pic);
+      } else {
+        updateProfile();
+      }
+      alert("Pengaturan disimpan!");
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+
+    function followUserFunc() {
+      const target = followUser.value.trim();
+      if (!target || target === currentUser || !localStorage.getItem(target)) return alert("User tidak valid");
+      let dataTarget = JSON.parse(localStorage.getItem(target));
+      let dataCurrent = JSON.parse(localStorage.getItem(currentUser));
+      if (!dataTarget.followers.includes(currentUser)) {
+        dataTarget.followers.push(currentUser);
+        dataCurrent.following.push(target);
+        localStorage.setItem(target, JSON.stringify(dataTarget));
+        localStorage.setItem(currentUser, JSON.stringify(dataCurrent));
+        alert("Berhasil follow!");
+      } else {
+        alert("Sudah follow user ini.");
+      }
+      updateProfile();
+    }
+
+    function unfollowUserFunc() {
+      const target = followUser.value.trim();
+      if (!target || target === currentUser || !localStorage.getItem(target)) return alert("User tidak valid");
+      let dataTarget = JSON.parse(localStorage.getItem(target));
+      let dataCurrent = JSON.parse(localStorage.getItem(currentUser));
+      dataTarget.followers = dataTarget.followers.filter(u => u !== currentUser);
+      dataCurrent.following = dataCurrent.following.filter(u => u !== target);
+      localStorage.setItem(target, JSON.stringify(dataTarget));
+      localStorage.setItem(currentUser, JSON.stringify(dataCurrent));
+      alert("Berhasil unfollow!");
+      updateProfile();
+    }
+
+    function deletePost(index) {
+      if (posts[index].user !== currentUser) {
+        alert("Kamu hanya bisa menghapus postingan milikmu sendiri.");
+        return;
+      }
+      if (confirm("Yakin ingin menghapus postingan ini?")) {
+        posts.splice(index, 1);
+        savePosts();
+        refreshPosts();
+      }
+    }
+
+    switchSection('register');
+    window.addEventListener('load', refreshStories);
+    <!-- Tambahan pada struktur postStatus dan refreshPosts di bagian <script> --><!-- Hanya bagian yang dimodifikasi dan ditambahkan --><script>
+  // Tambahan default reaction pada pembuatan post baru
+  function postStatus() {
+    const text = statusText.value.trim();
+    const file = photoInput.files[0];
+    const toStory = addToStory.checked;
+    if (!text && !file) return;
+    const reader = new FileReader();
+    const process = (photoData = "") => {
+      const post = {
+        user: currentUser,
+        text,
+        photo: photoData,
+        likes: 0,
+        dislikes: 0,
+        reactions: { '👍': 0, '❤️': 0, '😂': 0, '😮': 0 },
+        reactedUsers: {},
+        comments: []
+      };
+      posts.unshift(post);
+      if (toStory) {
+        stories.unshift({ user: currentUser, text, photo: photoData, time: Date.now() });
+        saveStories();
+        refreshStories();
+      }
+      savePosts();
+      refreshPosts();
+    };
+    if (file) {
+      reader.onload = e => process(e.target.result);
+      reader.readAsDataURL(file);
+    } else {
+      process();
+    }
+    statusText.value = "";
+    photoInput.value = "";
+    addToStory.checked = false;
+  }
+
+  // Tambahkan fungsi untuk emoji reaction
+  function react(i, emoji) {
+    if (!posts[i].reactedUsers) posts[i].reactedUsers = {};
+    if (!posts[i].reactions) posts[i].reactions = { '👍': 0, '❤️': 0, '😂': 0, '😮': 0 };
+
+    const reacted = posts[i].reactedUsers[currentUser];
+    if (reacted) {
+      posts[i].reactions[reacted]--;
+    }
+    posts[i].reactedUsers[currentUser] = emoji;
+    posts[i].reactions[emoji]++;
+    savePosts();
+    refreshPosts();
+  }
+
+  // Modifikasi refreshPosts untuk menampilkan tombol reaction
+  
+function parseMentions(text) {
+  return text.replace(/@(\w+)/g, (match, username) => {
+    if (localStorage.getItem(username)) {
+      return `<span class="mention" onclick="openUserProfile('${username}')">@${username}</span>`;
+    }
+    return match;
+  });
+}
+
+function openUserProfile(username) {
+  alert("Profil user: " + username);
+  // Bisa diarahkan ke halaman profil user
+}
+
+function refreshPosts() {
+    postContainer.innerHTML = "";
+    posts.forEach((post, i) => {
+      const div = document.createElement("div");
+        div.className = "story-card";
+      const reactionsHTML = Object.entries(post.reactions || {}).map(([emoji, count]) => `${emoji} ${count}`).join(" ");
+      div.innerHTML = `
+        <strong>${post.user}</strong><br>
+        ${post.text}<br>
+        ${post.photo ? `<img src="${post.photo}" width="200"><br>` : ""}
+        <button class="action-btn" onclick="like(${i})">Like (${post.likes})</button>
+        <button class="action-btn" onclick="dislike(${i})">Dislike (${post.dislikes})</button>
+        <br>
+        <div class='reaction-container'><span>Reaksi:</span>${reactionsHTML}</span></div>
+        <button class="reaction-btn" onclick="react(${i}, '👍')">👍</button>
+        <button class="reaction-btn" onclick="react(${i}, '❤️')">❤️</button>
+        <button class="reaction-btn" onclick="react(${i}, '😂')">😂</button>
+        <button class="reaction-btn" onclick="react(${i}, '😮')">😮</button>
+        ${post.user === currentUser ? `<div style='margin-top: 8px;'><button class="action-btn" onclick="deletePost(${i})">Hapus</button>` : ""}<br>
+        <div style='margin-top:8px;'><input id="comment${i}" placeholder="Komentar...">
+        <button class="action-btn" onclick="addComment(${i})">Kirim</button></div>
+        <div>${post.comments.map(c => `<div class="comment">${c.user}: ${c.text}</div>`).join("")}</div>
+      `;
+      postContainer.appendChild(div);
+    });
+  }    
+  
+    function renderComments(comments, depth = 0, parentIndex = '') {
+      return comments.map((c, index) => {
+        const commentId = `${parentIndex}${index}`;
+        const replyForm = `
+          <div style="margin-left:${depth * 20 + 20}px;">
+            <input id="replyInput${commentId}" placeholder="Balas...">
+            <button onclick="addReply('${commentId}', ${depth + 1})">Balas</button>
+          </div>
+        `;
+        return `
+          <div class="comment" style="margin-left:${depth * 20}px;">
+            <strong>${c.user}</strong>: ${c.text}
+            ${replyForm}
+            ${c.replies ? renderComments(c.replies, depth + 1, commentId) : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function addReply(commentId, depth) {
+      const indexes = commentId.split('').map(Number);
+      const postIndex = indexes.shift();
+      let target = posts[postIndex].comments;
+      while (indexes.length > 0) {
+        const i = indexes.shift();
+        target = target[i].replies = target[i].replies || [];
+      }
+      const input = document.getElementById("replyInput" + commentId);
+      const text = input.value.trim();
+      if (text) {
+        target.push({ user: currentUser, text, replies: [] });
+        input.value = "";
+        savePosts();
+        refreshPosts();
+      }
+    }
+
+    
+function parseMentions(text) {
+  return text.replace(/@(\w+)/g, (match, username) => {
+    if (localStorage.getItem(username)) {
+      return `<span class="mention" onclick="openUserProfile('${username}')">@${username}</span>`;
+    }
+    return match;
+  });
+}
+
+function openUserProfile(username) {
+  alert("Profil user: " + username);
+  // Bisa diarahkan ke halaman profil user
+}
+
+function refreshPosts() {
+      postContainer.innerHTML = "";
+      posts.forEach((post, i) => {
+        const div = document.createElement("div");
+        div.className = "story-card";
+        const reactionsHTML = Object.entries(post.reactions || {}).map(([emoji, count]) => `${emoji} ${count}`).join(" ");
+        div.innerHTML = `
+          <strong>${post.user}</strong><br>
+          ${post.text}<br>
+          ${post.photo ? `<img src="${post.photo}" width="200"><br>` : ""}
+          <button class="action-btn" onclick="like(${i})">Like (${post.likes})</button>
+          <button class="action-btn" onclick="dislike(${i})">Dislike (${post.dislikes})</button><br>
+          <div class='reaction-container'><span>Reaksi:</span>${reactionsHTML}</span></div>
+          <button class="reaction-btn" onclick="react(${i}, '👍')">👍</button>
+          <button class="reaction-btn" onclick="react(${i}, '❤️')">❤️</button>
+          <button class="reaction-btn" onclick="react(${i}, '😂')">😂</button>
+          <button class="reaction-btn" onclick="react(${i}, '😮')">😮</button>
+          ${post.user === currentUser ? `<div style='margin-top: 8px;'><button class="action-btn" onclick="deletePost(${i})">Hapus</button>` : ""}<br>
+          <div style='margin-top:8px;'><input id="comment${i}" placeholder="Komentar...">
+          <button class="action-btn" onclick="addComment(${i})">Kirim</button></div>
+          <div>${renderComments(post.comments || [], 0, String(i))}</div>
+        `;
+        postContainer.appendChild(div);
+      });
+    }
+
+    function addComment(i) {
+      const input = document.getElementById("comment" + i);
+      const text = input.value.trim();
+      if (text) {
+        posts[i].comments.push({ user: currentUser, text, replies: [] });
+        input.value = "";
+        savePosts();
+        refreshPosts();
+      }
+    }
+
+
+
+// ===== Chat 1-on-1 =====
+const chatUserSelect = document.getElementById('chatUser');
+const chatBox = document.getElementById('chatBox');
+const chatInput = document.getElementById('chatInput');
+const chatBadge = document.createElement('span');
+chatBadge.textContent = '!';
+chatBadge.style.color = 'red';
+chatBadge.style.marginLeft = '4px';
+
+function getChatKey(userA, userB) {
+  return ['chat', userA, userB].sort().join('_');
+}
+
+function loadChatUsers() {
+  chatUserSelect.innerHTML = '';
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key !== currentUser && key !== 'posts' && key !== 'stories' && key !== 'lastLoginUser') {
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = key;
+      chatUserSelect.appendChild(opt);
+    }
+  }
+}
+
+function loadChat() {
+  chatBox.innerHTML = '';
+  const otherUser = chatUserSelect.value;
+  const chatKey = getChatKey(currentUser, otherUser);
+  const messages = JSON.parse(localStorage.getItem(chatKey) || '[]');
+  messages.forEach(msg => {
+    const div = document.createElement('div');
+    div.className = 'chat-message';
+    div.textContent = msg.from + ': ' + msg.text;
+    chatBox.appendChild(div);
+  });
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  const otherUser = chatUserSelect.value;
+  const chatKey = getChatKey(currentUser, otherUser);
+  const messages = JSON.parse(localStorage.getItem(chatKey) || '[]');
+  messages.push({ from: currentUser, text, read: false });
+  localStorage.setItem(chatKey, JSON.stringify(messages));
+  chatInput.value = '';
+  loadChat();
+}
+
+chatUserSelect?.addEventListener('change', loadChat);
+
+function checkUnreadMessages() {
+  let hasUnread = false;
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('chat_') && key.includes(currentUser)) {
+      const messages = JSON.parse(localStorage.getItem(key) || '[]');
+      if (messages.some(m => m.from !== currentUser && !m.read)) {
+        hasUnread = true;
+        break;
+      }
+    }
+  }
+  if (hasUnread) {
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+      if (link.textContent.includes('Chat') && !link.textContent.includes('!')) {
+        link.appendChild(chatBadge);
+      }
+    });
+  }
+}
+
+function markAllChatsAsRead() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('chat_') && key.includes(currentUser)) {
+      let messages = JSON.parse(localStorage.getItem(key) || '[]');
+      messages = messages.map(m => {
+        if (m.from !== currentUser) m.read = true;
+        return m;
+      });
+      localStorage.setItem(key, JSON.stringify(messages));
+    }
+  }
+}
+
+const originalSwitchPage = switchPage;
+switchPage = function(page) {
+  originalSwitchPage(page);
+  if (page === 'chat') {
+    loadChatUsers();
+    if (chatUserSelect.options.length > 0) loadChat();
+    markAllChatsAsRead();
+  }
+}
+
+window.addEventListener('load', () => {
+  localStorage.setItem('lastLoginUser', currentUser);
+  checkUnreadMessages();
+});
+
+</script>
+</body>
+</html>
+<style>
+nav.nav-modern {
+  display: flex;
+  justify-content: space-around;
+  position: sticky;
+  bottom: 0;
+  background: #ffffffcc;
+  backdrop-filter: blur(6px);
+  padding: 12px 0;
+  border-top: 1px solid #ddd;
+}
+nav.nav-modern a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+nav.nav-modern a:hover {
+  background-color: #f1f1f1;
+}
+</style>
+
+<style>
+.fade-in {
+  animation: fadeIn 0.6s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
