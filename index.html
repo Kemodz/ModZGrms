@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Modzy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --green:#6dffb0;
+  --glass:rgba(10,20,15,.75);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{
+  min-height:100vh;
+  background:url('https://cdn.discordapp.com/attachments/1085238514712576181/1468533967434158143/trees-5841474_1280.jpg?ex=69845e55&is=69830cd5&hm=2b0040bba447b5f9a74f2506e327a32ea1e30a25e9d9fcec180c6a8dce429dff&') center/cover no-repeat fixed;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+}
+.overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.55),#050b08);
+}
+.modal,.container{
+  background:var(--glass);
+  backdrop-filter:blur(12px);
+  border-radius:18px;
+  border:1px solid #6dffb044;
+  box-shadow:0 0 25px #000;
+}
+.modal{
+  position:fixed;inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+.box,.container{
+  width:90%;
+  max-width:360px;
+  padding:22px;
+  text-align:center;
+}
+h1,h2{color:var(--green);margin-bottom:12px}
+.btn{
+  display:block;
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  background:#0f2419;
+  color:var(--green);
+  border:1px solid var(--green);
+  border-radius:14px;
+  font-weight:bold;
+  text-decoration:none;
+}
+.btn:hover{
+  background:var(--green);
+  color:#000;
+}
+.hidden{display:none}
+.qris{width:100%;border-radius:14px;margin-top:10px}
+.small{font-size:13px;opacity:.8}
+</style>
+</head>
+
+<body>
+<div class="overlay"></div>
+
+<!-- MENU AWAL -->
+<div class="modal" id="start">
+  <div class="box">
+    <h2>MODZY</h2>
+    <button class="btn" onclick="openScript()">🌿 ALL LINK MODZZY</button>
+    <button class="btn" onclick="openPay()">💸 PEMBAYARAN</button>
+  </div>
+</div>
+
+<!-- SCRIPT / SOSMED -->
+<div class="container hidden" id="script">
+  <h1>MODZY</h1>
+
+  <a class="btn" href="https://whatsapp.com/channel/0029Vb7QbJtFnSz7BoajF927" target="_blank">📢 SALURAN WHATSAPP</a>
+  <a class="btn" href="https://chat.whatsapp.com/GD3nKHuYVCGIIiamSXgZRl?mode=gi_t" target="_blank">👥 GRUP WHATSAPP</a>
+  <a class="btn" href="https://www.facebook.com/fahmii.kemoodn" target="_blank">📘 FACEBOOK MODZY</a>
+  <a class="btn" href="https://www.instagram.com/mhmmad_fhminf?igsh=bzJqeTBpdm13ZDNv" target="_blank">📸 INSTAGRAM</a>
+  <a class="btn" href="ISI_LINK_TIKTOK" target="_blank">🎵 TIKTOK</a>
+  <a class="btn" href="https://youtube.com/@fahmistok?si=NCFAil1yE7mD2RLA" target="_blank">▶️ YOUTUBE</a>
+
+  <button class="btn" onclick="back()">⬅ KEMBALI</button>
+</div>
+
+<!-- MENU PEMBAYARAN -->
+<div class="modal hidden" id="pay">
+  <div class="box">
+    <h2>PEMBAYARAN</h2>
+    <button class="btn" onclick="showDana()">💚 DANA</button>
+    <button class="btn" onclick="showGopay()">💚 GOPAY</button>
+    <button class="btn" onclick="showSea()">🏦 SEABANK</button>
+    <button class="btn" onclick="showQris()">📷 QRIS</button>
+    <button class="btn" onclick="back()">⬅ KEMBALI</button>
+  </div>
+</div>
+
+<!-- POPUP DETAIL PEMBAYARAN -->
+<div class="modal hidden" id="detail">
+  <div class="box">
+    <h2 id="title"></h2>
+    <div id="content"></div>
+    <button class="btn" onclick="openPay()">⬅ KEMBALI</button>
+  </div>
+</div>
+
+<script>
+const start=document.getElementById('start');
+const script=document.getElementById('script');
+const pay=document.getElementById('pay');
+const detail=document.getElementById('detail');
+const title=document.getElementById('title');
+const content=document.getElementById('content');
+
+function hideAll(){
+  start.classList.add('hidden');
+  script.classList.add('hidden');
+  pay.classList.add('hidden');
+  detail.classList.add('hidden');
+}
+function openScript(){hideAll();script.classList.remove('hidden')}
+function openPay(){hideAll();pay.classList.remove('hidden')}
+function back(){hideAll();start.classList.remove('hidden')}
+
+function showDana(){
+  hideAll();detail.classList.remove('hidden');
+  title.innerText='DANA';
+  content.innerHTML='<b>083849063881</b><br><span class="small">a.n Sukaesih</span>';
+}
+function showGopay(){
+  hideAll();detail.classList.remove('hidden');
+  title.innerText='GOPAY';
+  content.innerHTML='<b>083849063881</b><br><span class="small">a.n Sukaesih</span>';
+}
+function showSea(){
+  hideAll();detail.classList.remove('hidden');
+  title.innerText='SEABANK';
+  content.innerHTML='<b>901230855585</b><br><span class="small">a.n Sukaesih</span>';
+}
+function showQris(){
+  hideAll();detail.classList.remove('hidden');
+  title.innerText='QRIS';
+  content.innerHTML='<img src="https://cdn.discordapp.com/attachments/1085238514712576181/1468532892907999388/qris.png?ex=69845d55&is=69830bd5&hm=9b5cea31d97984c0e30c87d5d2e360a980ab828c4750b37772d04d53710f7ae6&" class="qris">';
+}
+</script>
+
+</body>
+</html>
