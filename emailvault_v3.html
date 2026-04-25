@@ -1,0 +1,500 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c26;--surface3:#242433;--border:#2a2a3d;--border2:#353550;--accent:#7c6aff;--accent2:#a594ff;--accent-bg:#7c6aff18;--green:#22d87a;--green-bg:#22d87a15;--red:#ff5a5a;--red-bg:#ff5a5a15;--amber:#f5a623;--amber-bg:#f5a62315;--text:#f0f0ff;--text2:#8888aa;--text3:#55556a;--r:10px;--r2:14px;--r3:20px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'DM Sans',sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+.page{display:none;min-height:100vh}.page.active{display:flex;flex-direction:column}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:1rem}
+.auth-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:2rem;position:relative;overflow:hidden}
+.auth-card::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:var(--accent-bg);pointer-events:none}
+.auth-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.5px}
+.auth-logo span{color:var(--accent2)}
+.auth-sub{font-size:13px;color:var(--text2);margin-bottom:1.75rem}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500}
+.fg input,.fg select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus{border-color:var(--accent)}
+.fg input.err{border-color:var(--red)}
+.fg select option{background:var(--surface2)}
+.fg .hint{font-size:11px;color:var(--text3);margin-top:4px}
+.fg .hint.red{color:var(--red)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-primary{width:100%;padding:11px;background:var(--accent);border:none;border-radius:var(--r);font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s;margin-top:4px}
+.btn-primary:hover{opacity:.85}
+.link-btn{color:var(--accent2);cursor:pointer;font-weight:500}
+.divider{text-align:center;margin:14px 0;font-size:12px;color:var(--text3)}
+.err-msg{font-size:12px;color:var(--red);margin-top:8px;text-align:center}
+.ok-msg{font-size:12px;color:var(--green);margin-top:8px;text-align:center}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.topbar-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.3px}
+.topbar-logo span{color:var(--accent2)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.saldo-chip{background:var(--green-bg);border:1px solid var(--green);color:var(--green);padding:5px 14px;border-radius:999px;font-size:13px;font-weight:500}
+.user-chip{background:var(--surface2);border:1px solid var(--border);padding:5px 12px;border-radius:999px;font-size:13px;color:var(--text2)}
+.icon-btn{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:6px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s}
+.icon-btn:hover{border-color:var(--border2);color:var(--text)}
+.tabs{display:flex;gap:2px;padding:16px 20px 0;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.tab{padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--r) var(--r) 0 0;color:var(--text2);background:none;border:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--bg);color:var(--accent2);border-top:2px solid var(--accent)}
+.tab-count{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:10px;padding:1px 6px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.panel{display:none;padding:20px;flex:1}.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:10px;transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.email-name{font-weight:500;font-size:14px;color:var(--text);word-break:break-all}
+.meta{font-size:12px;color:var(--text2);margin-top:4px}
+.pass-reveal{font-family:monospace;font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 10px;color:var(--text2);cursor:pointer;display:inline-block;margin-top:8px;transition:all .2s}
+.pass-reveal:hover{border-color:var(--accent);color:var(--text)}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:var(--accent2);flex-shrink:0}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px}
+.b-pending{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber)}
+.b-approved{background:var(--green-bg);color:var(--green);border:1px solid var(--green)}
+.b-rejected{background:var(--red-bg);color:var(--red);border:1px solid var(--red)}
+.b-wd{background:var(--accent-bg);color:var(--accent2);border:1px solid var(--accent)}
+.actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0}
+.abtn{font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .2s;border:none}
+.abtn-g{background:var(--green-bg);color:var(--green);border:1px solid var(--green)}.abtn-g:hover{background:#22d87a30}
+.abtn-r{background:var(--red-bg);color:var(--red);border:1px solid var(--red)}.abtn-r:hover{background:#ff5a5a30}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px}
+.stat-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--text)}
+.stat-l{font-size:11px;color:var(--text2);margin-top:3px}
+.stat-card.accent .stat-n{color:var(--accent2)}
+.stat-card.green .stat-n{color:var(--green)}
+.stat-card.amber .stat-n{color:var(--amber)}
+.notice{background:var(--green-bg);border:1px solid var(--green);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--green);margin-bottom:16px}
+.warn-box{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--amber);margin-bottom:16px}
+.info-box{background:var(--accent-bg);border:1px solid var(--accent);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--accent2);margin-bottom:16px}
+.sec{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:14px}
+.filter-row{display:flex;gap:8px;margin-bottom:16px}
+.filter-row input,.filter-row select{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:13px;color:var(--text);outline:none}
+.filter-row input:focus,.filter-row select:focus{border-color:var(--accent)}
+.filter-row select option{background:var(--surface2)}
+.tx-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.tx-row:last-child{border-bottom:none}
+.price-badge{display:inline-block;background:var(--green-bg);border:1px solid var(--green);color:var(--green);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin-top:6px}
+.loading-overlay{position:absolute;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:99;border-radius:var(--r3)}
+.spinner{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+
+<div id="page-auth" class="page active">
+  <div class="auth-wrap">
+    <div class="auth-card" style="position:relative">
+      <div id="auth-loading" class="loading-overlay"><div class="spinner"></div></div>
+      <div class="auth-logo">Email<span>Vault</span></div>
+      <div class="auth-sub" id="auth-sub">Masuk ke akun seller kamu</div>
+      <div id="form-login">
+        <div class="fg"><label>Username</label><input type="text" id="l-user" placeholder="Username kamu"></div>
+        <div class="fg"><label>Password</label><input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <button class="btn-primary" onclick="doLogin()">Masuk</button>
+        <div id="login-msg"></div>
+        <div class="divider">atau</div>
+        <div style="text-align:center;font-size:13px;color:var(--text2)">Belum punya akun? <span class="link-btn" onclick="showReg()">Daftar sekarang</span></div>
+      </div>
+      <div id="form-reg" style="display:none">
+        <div class="sec">Data diri</div>
+        <div class="fr">
+          <div class="fg"><label>Nama lengkap *</label><input type="text" id="r-nama" placeholder="Nama kamu"></div>
+          <div class="fg"><label>Username *</label><input type="text" id="r-user" placeholder="Tanpa spasi"></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label>No WhatsApp *</label><input type="text" id="r-wa" placeholder="08xx-xxxx-xxxx"></div>
+          <div class="fg"><label>Password *</label><input type="password" id="r-pass" placeholder="Min. 6 karakter"></div>
+        </div>
+        <div class="sec" style="margin-top:4px">E-wallet penerima pembayaran</div>
+        <div class="fr">
+          <div class="fg"><label>Jenis e-wallet *</label>
+            <select id="r-ew"><option value="">Pilih e-wallet</option><option>GoPay</option><option>OVO</option><option>DANA</option><option>ShopeePay</option><option>Transfer Bank</option><option>Lainnya</option></select>
+          </div>
+          <div class="fg"><label>Nomor akun *</label><input type="text" id="r-eno" placeholder="Nomor e-wallet"></div>
+        </div>
+        <button class="btn-primary" onclick="doReg()">Buat Akun</button>
+        <div id="reg-msg"></div>
+        <div class="divider">atau</div>
+        <div style="text-align:center;font-size:13px;color:var(--text2)">Sudah punya akun? <span class="link-btn" onclick="showLogin()">Masuk</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-seller" class="page">
+  <div class="topbar">
+    <div class="topbar-logo">Email<span>Vault</span></div>
+    <div class="topbar-right">
+      <div class="saldo-chip" id="sel-saldo-chip">Rp 0</div>
+      <div class="user-chip" id="sel-user-chip">—</div>
+      <button class="icon-btn" onclick="logout()">Keluar</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="swSel('setor')">Setor Email</button>
+    <button class="tab" onclick="swSel('riwayat')">Riwayat</button>
+    <button class="tab" onclick="swSel('wd')">Withdraw</button>
+  </div>
+  <div id="sel-setor" class="panel active">
+    <div class="info-box" id="sel-ew-bar"></div>
+    <div class="warn-box" style="margin-bottom:16px">
+      Harga per email sudah ditetapkan: <strong>Rp 2.000</strong>. Saldo masuk otomatis setelah admin approve.
+    </div>
+    <div class="fr">
+      <div class="fg">
+        <label>Alamat Gmail *</label>
+        <input type="text" id="ss-email" placeholder="contoh@gmail.com" oninput="validateGmail(this)">
+        <div class="hint" id="gmail-hint">Harus berakhiran @gmail.com</div>
+      </div>
+      <div class="fg">
+        <label>Password Gmail *</label>
+        <input type="text" id="ss-pass" placeholder="Password email">
+      </div>
+    </div>
+    <div class="fg" style="max-width:240px">
+      <label>Harga</label>
+      <input type="text" value="Rp 2.000 (sudah ditetapkan)" readonly style="color:var(--green);font-weight:500">
+    </div>
+    <div class="fg"><label>Catatan (opsional)</label><input type="text" id="ss-note" placeholder="Umur akun, info tambahan..."></div>
+    <button class="btn-primary" style="max-width:240px" onclick="submitSetor()">Kirim Penawaran</button>
+    <div id="setor-msg" style="margin-top:8px;font-size:13px"></div>
+  </div>
+  <div id="sel-riwayat" class="panel"><div id="sel-riwayat-list"></div></div>
+  <div id="sel-wd" class="panel">
+    <div id="sel-saldo-box" style="margin-bottom:16px"></div>
+    <div class="sec">Ajukan withdraw</div>
+    <div class="fr" style="max-width:480px">
+      <div class="fg"><label>Jumlah (Rp)</label><input type="number" id="wd-amt" placeholder="Min. Rp 10.000"></div>
+      <div class="fg"><label>Tujuan</label><input type="text" id="wd-dest" readonly style="color:var(--text2)"></div>
+    </div>
+    <button class="btn-primary" style="max-width:240px" onclick="ajukanWd()">Ajukan Withdraw</button>
+    <div id="wd-msg" style="margin-top:8px;font-size:13px"></div>
+    <div style="margin-top:20px"><div class="sec">Riwayat withdraw</div><div id="wd-hist"></div></div>
+  </div>
+</div>
+
+<div id="page-admin" class="page">
+  <div class="topbar">
+    <div class="topbar-logo">Email<span>Vault</span> <span style="font-size:11px;color:var(--text3);margin-left:4px;font-family:'DM Sans'">Admin</span></div>
+    <div class="topbar-right">
+      <button class="icon-btn" onclick="logout()">Keluar</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="swAdm('pending')">Pending <span class="tab-count" id="adm-pc" style="display:none"></span></button>
+    <button class="tab" onclick="swAdm('stok')">Stok Gmail</button>
+    <button class="tab" onclick="swAdm('sellers')">Sellers</button>
+    <button class="tab" onclick="swAdm('wdreq')">Withdraw <span class="tab-count" id="adm-wc" style="display:none"></span></button>
+  </div>
+  <div id="adm-pending" class="panel active"><div id="adm-pending-list"></div></div>
+  <div id="adm-stok" class="panel"><div id="adm-stats" class="stats-grid"></div><div id="adm-stok-list"></div></div>
+  <div id="adm-sellers" class="panel"><div id="adm-sellers-list"></div></div>
+  <div id="adm-wdreq" class="panel"><div id="adm-wd-list"></div></div>
+</div>
+
+<script>
+const ADMIN={username:'admin',password:'admin123'};
+const HARGA=2000;
+let DB={users:[],subs:[],wds:[]};
+let session=null;
+let showPass={};
+
+function fmt(n){return'Rp '+Math.round(n).toLocaleString('id-ID');}
+function today(){const d=new Date();return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;}
+function ini(n){return(n||'?').trim().split(' ').map(x=>x[0]).join('').toUpperCase().slice(0,2);}
+function uid(){return Date.now()+Math.random().toString(36).slice(2,7);}
+function isGmail(v){return/^[^\s@]+@gmail\.com$/i.test(v.trim());}
+
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function setMsg(id,txt,ok){const e=document.getElementById(id);if(e){e.textContent=txt;e.className=ok?'ok-msg':'err-msg';}}
+
+function validateGmail(inp){
+  const hint=document.getElementById('gmail-hint');
+  if(!inp.value){inp.classList.remove('err');hint.className='hint';hint.textContent='Harus berakhiran @gmail.com';return;}
+  if(!isGmail(inp.value)){inp.classList.add('err');hint.className='hint red';hint.textContent='Format salah — harus @gmail.com';}
+  else{inp.classList.remove('err');hint.className='hint';hint.textContent='Format valid';}
+}
+
+async function loadDB(){
+  try{
+    const [u,s,w,sess]=await Promise.all([
+      window.storage.get('ev3_users',true),
+      window.storage.get('ev3_subs',true),
+      window.storage.get('ev3_wds',true),
+      window.storage.get('ev3_sess_'+getDeviceKey())
+    ]);
+    if(u)DB.users=JSON.parse(u.value);
+    if(s)DB.subs=JSON.parse(s.value);
+    if(w)DB.wds=JSON.parse(w.value);
+    if(sess){
+      const sd=JSON.parse(sess.value);
+      if(sd.isAdmin){session={isAdmin:true};showPage('page-admin');renderAdmin();}
+      else{const usr=DB.users.find(x=>x.id===sd.uid);if(usr){session={isAdmin:false,user:usr};showPage('page-seller');renderSeller();}}
+    }
+  }catch(e){}
+  document.getElementById('auth-loading').style.display='none';
+}
+
+function getDeviceKey(){
+  let k=null;try{k=window.localStorage&&localStorage.getItem('ev3_dk');}catch(e){}
+  if(!k){k=Math.random().toString(36).slice(2);try{localStorage.setItem('ev3_dk',k);}catch(e){}}
+  return k||'default';
+}
+
+async function saveDB(){
+  try{
+    await Promise.all([
+      window.storage.set('ev3_users',JSON.stringify(DB.users),true),
+      window.storage.set('ev3_subs',JSON.stringify(DB.subs),true),
+      window.storage.set('ev3_wds',JSON.stringify(DB.wds),true)
+    ]);
+  }catch(e){}
+}
+
+async function saveSession(){
+  try{
+    const key='ev3_sess_'+getDeviceKey();
+    if(!session){await window.storage.delete(key);return;}
+    const sd=session.isAdmin?{isAdmin:true}:{isAdmin:false,uid:session.user.id};
+    await window.storage.set(key,JSON.stringify(sd));
+  }catch(e){}
+}
+
+function showReg(){document.getElementById('form-login').style.display='none';document.getElementById('form-reg').style.display='block';document.getElementById('auth-sub').textContent='Buat akun seller baru';}
+function showLogin(){document.getElementById('form-reg').style.display='none';document.getElementById('form-login').style.display='block';document.getElementById('auth-sub').textContent='Masuk ke akun seller kamu';}
+
+async function doLogin(){
+  const u=document.getElementById('l-user').value.trim();
+  const p=document.getElementById('l-pass').value;
+  if(!u||!p){setMsg('login-msg','Isi username dan password',false);return;}
+  if(u===ADMIN.username&&p===ADMIN.password){session={isAdmin:true};await saveSession();showPage('page-admin');renderAdmin();return;}
+  const user=DB.users.find(x=>x.username===u&&x.password===p);
+  if(!user){setMsg('login-msg','Username atau password salah',false);return;}
+  session={isAdmin:false,user};await saveSession();showPage('page-seller');renderSeller();
+}
+
+async function doReg(){
+  const nama=document.getElementById('r-nama').value.trim();
+  const username=document.getElementById('r-user').value.trim().toLowerCase().replace(/\s/g,'');
+  const wa=document.getElementById('r-wa').value.trim();
+  const pass=document.getElementById('r-pass').value;
+  const ew=document.getElementById('r-ew').value;
+  const eno=document.getElementById('r-eno').value.trim();
+  if(!nama||!username||!wa||!pass||!ew||!eno){setMsg('reg-msg','Semua field wajib diisi',false);return;}
+  if(pass.length<6){setMsg('reg-msg','Password minimal 6 karakter',false);return;}
+  if(DB.users.find(x=>x.username===username)||username===ADMIN.username){setMsg('reg-msg','Username sudah dipakai, coba yang lain',false);return;}
+  const user={id:uid(),nama,username,password:pass,wa,ewallet:ew,eNo:eno,saldo:0};
+  DB.users.push(user);await saveDB();
+  session={isAdmin:false,user};await saveSession();showPage('page-seller');renderSeller();
+}
+
+async function logout(){session=null;await saveSession();showLogin();showPage('page-auth');document.getElementById('l-user').value='';document.getElementById('l-pass').value='';document.getElementById('login-msg').textContent='';}
+
+function swSel(tab){
+  document.querySelectorAll('#page-seller .tab').forEach((t,i)=>t.classList.toggle('active',['setor','riwayat','wd'][i]===tab));
+  document.querySelectorAll('#page-seller .panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('sel-'+tab).classList.add('active');
+  if(tab==='riwayat')renderSelRiwayat();
+  if(tab==='wd')renderSelWd();
+}
+
+function swAdm(tab){
+  document.querySelectorAll('#page-admin .tab').forEach((t,i)=>t.classList.toggle('active',['pending','stok','sellers','wdreq'][i]===tab));
+  document.querySelectorAll('#page-admin .panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('adm-'+tab).classList.add('active');
+  if(tab==='pending')renderAdmPending();
+  if(tab==='stok')renderAdmStok();
+  if(tab==='sellers')renderAdmSellers();
+  if(tab==='wdreq')renderAdmWdList();
+}
+
+function renderSeller(){
+  const u=session.user;
+  document.getElementById('sel-saldo-chip').textContent=fmt(u.saldo);
+  document.getElementById('sel-user-chip').textContent=u.nama;
+  document.getElementById('sel-ew-bar').innerHTML=`E-wallet kamu: <strong>${u.ewallet} — ${u.eNo}</strong> &nbsp;·&nbsp; WA: ${u.wa}`;
+}
+
+async function submitSetor(){
+  const u=session.user;
+  const emailVal=document.getElementById('ss-email').value.trim();
+  const pass=document.getElementById('ss-pass').value.trim();
+  const note=document.getElementById('ss-note').value.trim();
+  if(!emailVal||!pass){setMsg('setor-msg','Email dan password wajib diisi',false);return;}
+  if(!isGmail(emailVal)){setMsg('setor-msg','Email harus berakhiran @gmail.com',false);document.getElementById('ss-email').classList.add('err');return;}
+  if(DB.subs.find(x=>x.email.toLowerCase()===emailVal.toLowerCase())){setMsg('setor-msg','Email ini sudah pernah disetorkan',false);return;}
+  DB.subs.push({id:uid(),uid:u.id,email:emailVal,password:pass,harga:HARGA,note,status:'pending',at:today()});
+  await saveDB();
+  setMsg('setor-msg','Penawaran terkirim! Tunggu konfirmasi admin.',true);
+  document.getElementById('ss-email').value='';document.getElementById('ss-pass').value='';document.getElementById('ss-note').value='';
+  document.getElementById('gmail-hint').textContent='Harus berakhiran @gmail.com';
+  setTimeout(()=>document.getElementById('setor-msg').textContent='',4000);
+}
+
+function renderSelRiwayat(){
+  const u=session.user;
+  const mine=DB.subs.filter(s=>s.uid===u.id).slice().reverse();
+  const el=document.getElementById('sel-riwayat-list');
+  if(!mine.length){el.innerHTML='<div class="empty">Belum ada penawaran yang dikirim</div>';return;}
+  el.innerHTML=mine.map(s=>{
+    const bc=s.status==='approved'?'b-approved':s.status==='rejected'?'b-rejected':'b-pending';
+    return`<div class="card"><div class="card-head"><div>
+      <div class="email-name">${s.email}</div>
+      <div class="meta">Gmail · ${fmt(s.harga)} · ${s.at}</div>
+      ${s.status==='approved'?`<div style="font-size:12px;color:var(--green);margin-top:5px">+ ${fmt(s.harga)} masuk ke saldo</div>`:''}
+      ${s.note?`<div class="meta" style="margin-top:4px;font-style:italic">"${s.note}"</div>`:''}
+    </div><span class="badge ${bc}">${s.status}</span></div></div>`;
+  }).join('');
+}
+
+function renderSelWd(){
+  const u=DB.users.find(x=>x.id===session.user.id)||session.user;
+  session.user=u;
+  document.getElementById('wd-dest').value=`${u.ewallet} - ${u.eNo}`;
+  document.getElementById('sel-saldo-box').innerHTML=`<div class="notice">Saldo tersedia: <strong>${fmt(u.saldo)}</strong></div>`;
+  const myWds=DB.wds.filter(w=>w.uid===u.id).slice().reverse();
+  const el=document.getElementById('wd-hist');
+  if(!myWds.length){el.innerHTML='<div class="empty" style="padding:1.5rem">Belum ada riwayat withdraw</div>';return;}
+  el.innerHTML=myWds.map(w=>{
+    const bc=w.status==='selesai'?'b-approved':w.status==='ditolak'?'b-rejected':'b-wd';
+    return`<div class="tx-row"><div><div style="font-weight:500;color:var(--text)">${fmt(w.amount)}</div><div style="font-size:12px;color:var(--text2)">${w.ewallet} · ${w.at}</div></div><span class="badge ${bc}">${w.status}</span></div>`;
+  }).join('');
+}
+
+async function ajukanWd(){
+  const amount=parseInt(document.getElementById('wd-amt').value)||0;
+  if(amount<10000){setMsg('wd-msg','Minimum withdraw Rp 10.000',false);return;}
+  const u=DB.users.find(x=>x.id===session.user.id);
+  if(!u||amount>u.saldo){setMsg('wd-msg','Saldo tidak cukup',false);return;}
+  u.saldo-=amount;session.user=u;
+  DB.wds.push({id:uid(),uid:u.id,nama:u.nama,amount,ewallet:`${u.ewallet} ${u.eNo}`,status:'pending',at:today()});
+  await saveDB();
+  document.getElementById('sel-saldo-chip').textContent=fmt(u.saldo);
+  document.getElementById('wd-amt').value='';
+  setMsg('wd-msg','Withdraw berhasil diajukan!',true);
+  renderSelWd();
+  setTimeout(()=>document.getElementById('wd-msg').textContent='',3000);
+}
+
+function renderAdmin(){renderAdmPending();updateAdmCounts();}
+
+function updateAdmCounts(){
+  const pc=DB.subs.filter(s=>s.status==='pending').length;
+  const wc=DB.wds.filter(w=>w.status==='pending').length;
+  const pe=document.getElementById('adm-pc');const we=document.getElementById('adm-wc');
+  pe.textContent=pc;pe.style.display=pc?'':'none';
+  we.textContent=wc;we.style.display=wc?'':'none';
+}
+
+function renderAdmPending(){
+  const list=DB.subs.filter(s=>s.status==='pending');
+  const el=document.getElementById('adm-pending-list');
+  if(!list.length){el.innerHTML='<div class="empty">Tidak ada penawaran pending saat ini</div>';return;}
+  el.innerHTML=list.map(s=>{
+    const seller=DB.users.find(u=>u.id===s.uid)||{nama:'?'};
+    const pid='p'+s.id;
+    return`<div class="card"><div class="card-head">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex:1">
+        <div class="avatar">${ini(seller.nama)}</div>
+        <div style="flex:1">
+          <div class="email-name">${s.email}</div>
+          <div class="meta">Seller: <strong style="color:var(--text)">${seller.nama}</strong> · Gmail · ${fmt(s.harga)} · ${s.at}</div>
+          <div class="pass-reveal" onclick="tp('${pid}',this,'${s.password}')">${showPass[pid]?s.password:'••••••••'}</div>
+          ${s.note?`<div class="meta" style="margin-top:6px;font-style:italic">"${s.note}"</div>`:''}
+          ${seller.ewallet?`<div class="meta" style="margin-top:4px">${seller.ewallet}: ${seller.eNo} · WA: ${seller.wa}</div>`:''}
+        </div>
+      </div>
+      <div class="actions">
+        <span class="badge b-pending">Pending</span>
+        <button class="abtn abtn-g" onclick="admApprove('${s.id}')">Approve</button>
+        <button class="abtn abtn-r" onclick="admReject('${s.id}')">Tolak</button>
+      </div>
+    </div></div>`;
+  }).join('');
+}
+
+function tp(pid,el,pass){showPass[pid]=!showPass[pid];el.textContent=showPass[pid]?pass:'••••••••';}
+
+async function admApprove(sid){
+  const s=DB.subs.find(x=>x.id==sid);if(!s)return;
+  s.status='approved';
+  const u=DB.users.find(x=>x.id===s.uid);if(u)u.saldo+=s.harga;
+  await saveDB();renderAdmPending();updateAdmCounts();
+}
+
+async function admReject(sid){
+  const s=DB.subs.find(x=>x.id==sid);if(s)s.status='rejected';
+  await saveDB();renderAdmPending();updateAdmCounts();
+}
+
+function renderAdmStok(){
+  const approved=DB.subs.filter(s=>s.status==='approved');
+  document.getElementById('adm-stats').innerHTML=`
+    <div class="stat-card accent"><div class="stat-n">${approved.length}</div><div class="stat-l">Total Gmail</div></div>
+    <div class="stat-card green"><div class="stat-n">${DB.users.length}</div><div class="stat-l">Total seller</div></div>
+    <div class="stat-card amber"><div class="stat-n">${fmt(approved.reduce((a,s)=>a+s.harga,0))}</div><div class="stat-l">Total nilai stok</div></div>
+  `;
+  const el=document.getElementById('adm-stok-list');
+  if(!approved.length){el.innerHTML='<div class="empty">Belum ada stok Gmail</div>';return;}
+  el.innerHTML=approved.map(s=>{
+    const seller=DB.users.find(u=>u.id===s.uid)||{nama:'?'};
+    const pid='s'+s.id;
+    return`<div class="card"><div class="card-head">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div class="avatar">${ini(seller.nama)}</div>
+        <div>
+          <div class="email-name">${s.email}</div>
+          <div class="meta">Dari: ${seller.nama} · ${fmt(s.harga)} · ${s.at}</div>
+          <div class="pass-reveal" onclick="tp('${pid}',this,'${s.password}')">${showPass[pid]?s.password:'••••••••'}</div>
+        </div>
+      </div>
+      <span class="badge b-approved">Di stok</span>
+    </div></div>`;
+  }).join('');
+}
+
+function renderAdmSellers(){
+  const el=document.getElementById('adm-sellers-list');
+  if(!DB.users.length){el.innerHTML='<div class="empty">Belum ada seller terdaftar</div>';return;}
+  el.innerHTML=DB.users.map(u=>`<div class="card">
+    <div style="display:flex;gap:12px;align-items:center">
+      <div class="avatar">${ini(u.nama)}</div>
+      <div style="flex:1">
+        <div style="font-weight:500;color:var(--text)">${u.nama} <span style="font-size:12px;color:var(--text2)">@${u.username}</span></div>
+        <div class="meta">${u.ewallet}: ${u.eNo} · WA: ${u.wa}</div>
+        <div style="font-size:12px;color:var(--green);margin-top:4px">Saldo: <strong>${fmt(u.saldo)}</strong> · Disetujui: ${DB.subs.filter(s=>s.uid===u.id&&s.status==='approved').length} Gmail</div>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+function renderAdmWdList(){
+  const list=DB.wds.filter(w=>w.status==='pending');
+  const el=document.getElementById('adm-wd-list');
+  if(!list.length){el.innerHTML='<div class="empty">Tidak ada permintaan withdraw</div>';return;}
+  el.innerHTML=list.map(w=>`<div class="card"><div class="card-head">
+    <div>
+      <div style="font-weight:500;font-size:15px;color:var(--text)">${fmt(w.amount)}</div>
+      <div class="meta">${w.nama} · ${w.ewallet} · ${w.at}</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="abtn abtn-g" onclick="admWdOk('${w.id}')">Selesai</button>
+      <button class="abtn abtn-r" onclick="admWdReject('${w.id}')">Tolak</button>
+    </div>
+  </div></div>`).join('');
+}
+
+async function admWdOk(id){
+  const w=DB.wds.find(x=>x.id==id);if(w)w.status='selesai';
+  await saveDB();renderAdmWdList();updateAdmCounts();
+}
+
+async function admWdReject(id){
+  const w=DB.wds.find(x=>x.id==id);if(!w)return;
+  w.status='ditolak';
+  const u=DB.users.find(x=>x.id===w.uid);if(u)u.saldo+=w.amount;
+  await saveDB();renderAdmWdList();updateAdmCounts();
+}
+
+loadDB();
+</script>
